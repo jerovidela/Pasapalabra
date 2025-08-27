@@ -1,0 +1,9 @@
+[
+  {"id":"q-a-1","letter":"A","prompt":"Ave rapaz nocturna.","answer":"aguila","language":"es"},
+  {"id":"q-b-1","letter":"B","prompt":"Capital de Bélgica.","answer":"bruselas","language":"es"},
+  {"id":"q-c-1","letter":"C","prompt":"País sudamericano con capital en Santiago.","answer":"chile","language":"es"},
+  {"id":"q-d-1","letter":"D","prompt":"Científico que formuló la teoría de la evolución.","answer":"darwin","language":"es"},
+  {"id":"q-e-1","letter":"E","prompt":"Gigante gaseoso del Sistema Solar con anillos notorios.","answer":"saturno","language":"es"},
+  {"id":"q-f-1","letter":"F","prompt":"Instrumento de cuerda frotada, pequeño y agudo.","answer":"violin","language":"es"},
+  {"id":"q-m-1","letter":"M","prompt":"Cordillera que recorre la Argentina.","answer":"andess","language":"es"}
+]
