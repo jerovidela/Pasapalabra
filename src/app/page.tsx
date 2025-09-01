@@ -1,103 +1,102 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 
+type EstadoLetras =
+  | "sin_intento"
+  | "actual"
+  | "correcto"
+  | "incorrecto"
+  | "pasapalabra";
+type LetraRosco = {
+  letra: string;
+  estado: EstadoLetras;
+};
 export default function Home() {
+  const [letras, setLetras] = useState<LetraRosco[]>(
+    [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "Ñ",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ].map((letra) => {
+      if (letra === "A") {
+        return { letra, estado: "actual" };
+      }
+      return { letra, estado: "sin_intento" };
+    })
+  );
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="font-sans bg-white items-center justify-items-center min-h-screen p-32">
+      <div className="relative bg-white rounded-full w-[400px] h-[400px] flex justify-center items-center mx-auto">
+        {letras.map((item, index) => {
+          const radio = 270;
+          const angulo = (2 * Math.PI * index) / letras.length - Math.PI / 2;
+          const x = radio * Math.cos(angulo) + 200 - 20;
+          const y = radio * Math.sin(angulo) + 200 - 20; // centrado verticalmente
+          return (
+            <div
+              key={item.letra}
+              className={`${
+                estadoColor[item.estado]
+              } text-white w-10 h-10 flex flex-col justify-center items-center rounded-full absolute`}
+              style={{ left: x, top: y }}
+            >
+              <span>{item.letra}</span>
+            </div>
+          );
+        })}
+      </div>
+      <button
+        className="w-10 h-10 bg-red-500"
+        onClick={() => setLetras(pasarActual(letras, "correcto"))}
+      >
+        Correcto!
+      </button>
     </div>
   );
+}
+
+const estadoColor: Record<EstadoLetras, string> = {
+  correcto: "bg-green-500",
+  actual: "bg-orange-500",
+  incorrecto: "bg-red-500",
+  pasapalabra: "bg-yellow-500",
+  sin_intento: "bg-blue-500",
+};
+
+function pasarActual(l: LetraRosco[], estado: EstadoLetras) {
+  const letras = [...l];
+  const indiceLetraActual = letras.findIndex(
+    (letra) => letra.estado === "actual"
+  );
+  letras[indiceLetraActual].estado = estado;
+
+  if (indiceLetraActual === letras.length - 1) {
+    letras[0].estado = "actual";
+  }
+  letras[indiceLetraActual + 1].estado = "actual";
+  return letras;
 }
