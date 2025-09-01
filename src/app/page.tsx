@@ -70,10 +70,16 @@ export default function Home() {
         })}
       </div>
       <button
-        className="w-10 h-10 bg-red-500"
+        className="w-10 h-10 bg-green-500"
         onClick={() => setLetras(pasarActual(letras, "correcto"))}
       >
         Correcto!
+      </button>
+      <button
+        className="w-10 h-10 bg-yellow-500"
+        onClick={() => setLetras(pasarActual(letras, "pasapalabra"))}
+      >
+        Pasapalabra!
       </button>
     </div>
   );
@@ -92,11 +98,40 @@ function pasarActual(l: LetraRosco[], estado: EstadoLetras) {
   const indiceLetraActual = letras.findIndex(
     (letra) => letra.estado === "actual"
   );
-  letras[indiceLetraActual].estado = estado;
 
-  if (indiceLetraActual === letras.length - 1) {
-    letras[0].estado = "actual";
+  const proxSinIntento = letras.findIndex(
+    (letra) => letra.estado === "sin_intento"
+  );
+
+  if (proxSinIntento >= 0) {
+    letras[proxSinIntento].estado = "actual";
+    letras[indiceLetraActual].estado = estado;
+    return letras;
   }
-  letras[indiceLetraActual + 1].estado = "actual";
+
+  const proxPasapalabra = letras.findIndex((letra, indice) => {
+    if (letra.estado === "pasapalabra" && indice > indiceLetraActual) {
+      return true;
+    }
+  });
+  if (proxPasapalabra >= 0) {
+    if (proxPasapalabra >= indiceLetraActual)
+      letras[proxPasapalabra].estado = "actual";
+
+    letras[indiceLetraActual].estado = estado;
+    return letras;
+  }
+  const proxPasapalabraDesdeCero = letras.findIndex((letra) => {
+    if (letra.estado === "pasapalabra") {
+      return true;
+    }
+  });
+  if (proxPasapalabraDesdeCero >= 0) {
+    letras[proxPasapalabraDesdeCero].estado = "actual";
+    letras[indiceLetraActual].estado = estado;
+    return letras;
+  }
+
+  letras[indiceLetraActual].estado = estado;
   return letras;
 }
